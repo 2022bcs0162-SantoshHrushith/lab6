@@ -29,8 +29,14 @@ pipeline {
                 sh '''
                     . venv/bin/activate
                     python scripts/train.py
+                    
+                    # Copy artifacts for archiving
                     mkdir -p app/artifacts
                     cp outputs/* app/artifacts/
+
+                    # Copy model and scaler to app root (for Docker build)
+                    cp outputs/model.pkl app/model.pkl
+                    cp outputs/scaler.pkl app/scaler.pkl
                 '''
             }
         }
